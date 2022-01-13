@@ -29,4 +29,40 @@ aws kms encrypt --plaintext "hello world"
 aws kms revoke-grant --key-id [KEY-ID] --grant-id [GRANT-ID-HERE]
 
 
+##### ViaService
+{
+	"Id": "key-consolepolicy-3",
+	"Version": "2012-10-17",
+	"Statement": [{
+			"Sid": "Enable IAM User Permissions",
+			"Effect": "Allow",
+			"Principal": {
+				"AWS": "arn:aws:iam::888913816489:root"
+			},
+			"Action": "kms:*",
+			"Resource": "*"
+		},
+		{
+			"Sid": "Allow use of the key",
+			"Effect": "Deny",
+			"Principal": {
+				"AWS": "arn:aws:iam::888913816489:user/Alice"
+			},
+			"Action": [
+				"kms:Encrypt"
+			],
+			"Resource": "*",
+      "Condition": {
+        "ForAnyValue:StringEquals": {
+          "kms:ViaService": [
+            "ec2.us-east-1.amazonaws.com"
+         ]
+      }
+       }
+		}
+	]
+}
+
+
+
 ```
