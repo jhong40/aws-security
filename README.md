@@ -14,4 +14,19 @@ aws kms decrypt --ciphertext-blob fileb://ExampleEncryptedFile --output text --q
 aws kms sign --key-id "64bcd1b9-0b2f-4924-89f1-91dfb000c6c6" --message fileb://demo.txt --signing-algorithm RSASSA_PKCS1_V1_5_SHA_256 --query Signature --output text | base64 -d > sign.txt
 aws kms verify --key-id "64bcd1b9-0b2f-4924-89f1-91dfb000c6c6" --message fileb://demo.txt --signature fileb://sign.txt --signing-algorithm RSASSA_PKCS1_V1_5_SHA_256
 
+
+###### Grant
+1. Generating the Grant
+aws kms create-grant /
+--key-id [KEY-ID] /
+--grantee-principal [GRANTE-PRINCIPLE-ARN] /
+--operations "Encrypt"
+2. Using Grant to Perform Operation
+aws kms encrypt --plaintext "hello world" 
+--key-id [KEY-ID] /
+--grant-tokens [GRANT TOKEN RECEIVED] 
+3. Revoking the Grant
+aws kms revoke-grant --key-id [KEY-ID] --grant-id [GRANT-ID-HERE]
+
+
 ```
