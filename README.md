@@ -64,5 +64,9 @@ aws kms revoke-grant --key-id [KEY-ID] --grant-id [GRANT-ID-HERE]
 }
 
 
+#### Encryption Context
+aws kms encrypt --key-id 13301e8a-7f95-4c00-bd73-6d0a20b03918 --plaintext fileb://file.txt --output text --query CiphertextBlob --encryption-context mykey=myvalue | base64 --decode > ExampleEncryptedFile
+aws kms decrypt --ciphertext-blob fileb://ExampleEncryptedFile --output text --query Plaintext --encryption-context mykey=myvalue | base64 -d
+
 
 ```
